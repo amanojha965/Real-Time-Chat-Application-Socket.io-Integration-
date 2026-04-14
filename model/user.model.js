@@ -85,13 +85,6 @@ userSchema.methods.toJSON = function () {
 };
 
 // ==================== USER LOGIN FUNCTION ====================
-
-/**
- * User Login Function
- * @param {string} email - User email
- * @param {string} password - User password
- * @returns {object} User object with response
- */
 export const userLogin = async (email, password) => {
   try {
     // Validation
@@ -162,11 +155,6 @@ export const userLogin = async (email, password) => {
 
 // ==================== USER LOGOUT FUNCTION ====================
 
-/**
- * User Logout Function
- * @param {string} userId - User ID
- * @returns {object} Logout response
- */
 export const userLogout = async (userId) => {
   try {
     if (!userId) {
@@ -198,11 +186,6 @@ export const userLogout = async (userId) => {
 
 // ==================== GET USER BY ID ====================
 
-/**
- * Get User By ID
- * @param {string} userId - User ID
- * @returns {object} User data
- */
 export const getUserById = async (userId) => {
   try {
     if (!userId) {
@@ -239,12 +222,7 @@ export const getUserById = async (userId) => {
 
 // ==================== UPDATE USER STATUS ====================
 
-/**
- * Update User Status
- * @param {string} userId - User ID
- * @param {string} status - User status (online/offline/away)
- * @returns {object} Updated user data
- */
+
 export const updateUserStatus = async (userId, status) => {
   try {
     if (!userId || !status) {

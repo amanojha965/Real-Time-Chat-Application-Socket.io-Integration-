@@ -1,5 +1,5 @@
 import express from "express";
-import User, { userLogin, userLogout, getUserById, updateUserStatus } from "../model/user.model.js";
+import { userLogin, userLogout, getUserById, updateUserStatus } from "../model/user.model.js";
 import {
   userSignup,
   checkUsernameAvailability,
@@ -12,10 +12,15 @@ import {
 const router = express.Router();
 
 // ==================== LOGIN ROUTE ====================
-/**
- * POST /api/auth/login
- * Login user with email and password
- */
+
+router.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Auth API working 🚀",
+  });
+});
+
+
 router.post("/login", async (req, res) => {
   try {
     
@@ -43,10 +48,6 @@ router.post("/login", async (req, res) => {
 });
 
 // ==================== LOGOUT ROUTE ====================
-/**
- * POST /api/auth/logout
- * Logout user
- */
 router.post("/logout", async (req, res) => {
   try {
     const userId = req.body.userId || req.session?.userId;
@@ -73,10 +74,7 @@ router.post("/logout", async (req, res) => {
 });
 
 // ==================== GET USER PROFILE ====================
-/**
- * GET /api/auth/profile/:userId
- * Get user profile by ID
- */
+
 router.get("/profile/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
@@ -93,10 +91,7 @@ router.get("/profile/:userId", async (req, res) => {
 });
 
 // ==================== UPDATE USER STATUS ====================
-/**
- * PUT /api/auth/status
- * Update user status (online/offline/away)
- */
+
 router.put("/status", async (req, res) => {
   try {
     const { userId, status } = req.body;
@@ -122,10 +117,7 @@ router.put("/status", async (req, res) => {
 });
 
 // ==================== SIGNUP ROUTE ====================
-/**
- * POST /api/auth/signup
- * Register new user
- */
+
 router.post("/signup", async (req, res) => {
   try {
     const response = await userSignup(req.body);

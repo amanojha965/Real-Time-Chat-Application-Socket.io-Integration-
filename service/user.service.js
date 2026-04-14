@@ -3,11 +3,6 @@ import User from "../model/user.model.js";
 
 // ==================== USER SIGNUP FUNCTION ====================
 
-/**
- * User Signup Function
- * @param {object} userData - User registration data
- * @returns {object} Response with new user data
- */
 export const userSignup = async (userData) => {
   try {
     const { username, email, password, confirmPassword, fullName } = userData;
@@ -108,11 +103,6 @@ export const userSignup = async (userData) => {
 
 // ==================== CHECK USERNAME AVAILABILITY ====================
 
-/**
- * Check if username is available
- * @param {string} username - Username to check
- * @returns {object} Availability status
- */
 export const checkUsernameAvailability = async (username) => {
   try {
     if (!username || username.length < 3) {
@@ -153,11 +143,6 @@ export const checkUsernameAvailability = async (username) => {
 
 // ==================== CHECK EMAIL AVAILABILITY ====================
 
-/**
- * Check if email is available
- * @param {string} email - Email to check
- * @returns {object} Availability status
- */
 export const checkEmailAvailability = async (email) => {
   try {
     if (!email || !email.includes("@")) {
@@ -198,10 +183,6 @@ export const checkEmailAvailability = async (email) => {
 
 // ==================== GET ALL USERS ====================
 
-/**
- * Get all active users (for chat list)
- * @returns {object} List of users
- */
 export const getAllUsers = async () => {
   try {
     const users = await User.find({ isActive: true }).select(
@@ -225,11 +206,6 @@ export const getAllUsers = async () => {
 
 // ==================== SEARCH USERS ====================
 
-/**
- * Search users by username or name
- * @param {string} searchTerm - Search term
- * @returns {object} Matching users
- */
 export const searchUsers = async (searchTerm) => {
   try {
     if (!searchTerm || searchTerm.length < 2) {
@@ -267,12 +243,6 @@ export const searchUsers = async (searchTerm) => {
 
 // ==================== DELETE USER ====================
 
-/**
- * Deactivate user account
- * @param {string} userId - User ID
- * @param {string} password - User's password (for confirmation)
- * @returns {object} Deletion response
- */
 export const deleteUserAccount = async (userId, password) => {
   try {
     if (!userId || !password) {

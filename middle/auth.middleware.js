@@ -1,7 +1,4 @@
-/**
- * Authentication Middleware
- * Checks if user is logged in
- */
+
 export const requireAuth = (req, res, next) => {
   // Check if session exists
   if (!req.session || !req.session.userId) {
@@ -17,10 +14,7 @@ export const requireAuth = (req, res, next) => {
   next();
 };
 
-/**
- * Role-based Access Control Middleware
- * (if you implement user roles later)
- */
+
 export const requireRole = (allowedRoles) => {
   return (req, res, next) => {
     if (!req.session || !req.session.userId) {
