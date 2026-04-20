@@ -2,10 +2,14 @@ import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import cloudinary from "../lib/cloudinary.js";
+import fs from "fs";
 
 export const signup = async (req, res) => {
-  const { fullName, email, password } = req.body;
+  let { fullName, email, password } = req.body;
+
   try {
+    email = email.toLowerCase().trim();
+
     if (!fullName || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
@@ -87,24 +91,33 @@ export const logout = (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { profilePic } = req.body;
     const userId = req.user._id;
 
-    if (!profilePic) {
+    if (!req.file) {
+      console.log("No file received in request");
       return res.status(400).json({ message: "Profile pic is required" });
     }
 
-    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+    console.log("Uploading file to cloudinary:", req.file.path);
+    const uploadResponse = await cloudinary.uploader.upload(req.file.path);
+    console.log("Cloudinary upload successful:", uploadResponse.secure_url);
+
+    // delete local file after upload to cloudinary
+    if (fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+      console.log("Local file deleted:", req.file.path);
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { profilePic: uploadResponse.secure_url },
       { new: true }
-    );
+    ).select("-password");
 
     res.status(200).json(updatedUser);
   } catch (error) {
-    console.log("error in update profile:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.log("Error in update profile controller:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
 
